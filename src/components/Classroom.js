@@ -1,23 +1,50 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from "axios";
 
 const Classroom = () => {
     const { classroomId } = useParams();
     const [posts, setPosts] = useState([]);
     const [students, setStudents] = useState([]);
 
-    const handleCreatePost = (e) => {
+    // const handleCreatePost = (e) => {
+    //     e.preventDefault();
+    //     const newPost = {
+    //         id: posts.length + 1,
+    //         heading: e.target.elements.postHeading.value,
+    //         content: e.target.elements.postContent.value,
+    //         files: Array.from(e.target.elements.postFiles.files),
+    //         createdAt: new Date(),
+    //         comments: [],
+    //     };
+    //     setPosts([...posts, newPost]);
+    //     e.target.reset();
+    // };
+
+
+    const handleCreatePost = async (e) => {
         e.preventDefault();
-        const newPost = {
-            id: posts.length + 1,
-            heading: e.target.elements.postHeading.value,
-            content: e.target.elements.postContent.value,
-            files: Array.from(e.target.elements.postFiles.files),
-            createdAt: new Date(),
-            comments: [],
+        const formData = new FormData(e.target);
+        const postData = {
+            heading: formData.get('postHeading'),
+            content: formData.get('postContent'),
+            files: formData.getAll('postFiles'),
         };
-        setPosts([...posts, newPost]);
-        e.target.reset();
+        
+        try {           
+            const response = await axios.post(`http://localhost:5000/api/classrooms/${classroomId}/posts`, postData, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            const newPost = response.data;
+            setPosts([...posts, newPost]);
+            e.target.reset();
+        } 
+        catch (error) {
+            console.error('Error creating post:', error);
+        }
     };
 
     const handleCreateComment = (postId, e) => {
