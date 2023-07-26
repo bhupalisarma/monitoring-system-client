@@ -63,12 +63,18 @@ const Admin = () => {
 
 	useEffect(() => {
 		const fetchClassrooms = async () => {
+			const accessToken = localStorage.getItem("accessToken")
 			try {
 				const response = await axios.get(
-					"http://localhost:5000/api/auth/classrooms"
+					"http://localhost:5000/api/auth/classrooms",
+					{
+						headers : {
+						"auth-token" : accessToken
+					}
+				}
 				);
-				setMentors(response.data.mentors);
-				setClassrooms(response.data.classrooms); // Add this line to set the classrooms state
+				console.log(response.data.classrooms)
+				setClassrooms(response.data); // Add this line to set the classrooms state
 			} catch (error) {
 				console.error("Error fetching classrooms:", error);
 				// Handle error case here
@@ -124,48 +130,6 @@ const Admin = () => {
 			{/* Main content */}
 			<div className="container mx-auto py-8">
 				<div className="max-w-3xl mx-auto px-4">
-					<h2 className="text-2xl font-bold mb-4">Mentors:</h2>
-					{mentors.map((mentor, index) => (
-						<div
-							key={index}
-							className="flex items-center justify-between bg-gray-200 px-4 py-2 rounded mb-4">
-							<div>
-								<p className="text-gray-800">{mentor.name}</p>
-								{mentor.classroom && (
-									<div className="mt-2">
-										<p className="font-semibold">
-											Classroom:
-										</p>
-										<p>
-											{mentor.classroom.subject},{" "}
-											{mentor.classroom.standard}
-										</p>
-									</div>
-								)}
-							</div>
-							<div>
-								{mentor.classroom ? (
-									<button
-										className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mr-2"
-										onClick={() => visitClassroom(index)}>
-										Visit Classroom
-									</button>
-								) : (
-									<button
-										className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mr-2"
-										onClick={() => visitClassroom(index)}>
-										Add Classroom
-									</button>
-								)}
-								<button
-									className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-									onClick={() => removeMentor(index)}>
-									Remove
-								</button>
-							</div>
-						</div>
-					))}
-
 					<button
 						className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mt-4 w-full"
 						onClick={addMentor}>
@@ -180,11 +144,14 @@ const Admin = () => {
 						<div
 							key={index}
 							className="bg-gray-200 p-4 rounded mb-4">
-							<p className="font-semibold">
+							{/* <p className="font-semibold">
 								Mentor: {classroom.mentor.name}
-							</p>
+							</p> */}
 							<p className="font-semibold">
 								Standard: {classroom.standard}
+							</p>
+							<p className="font-semibold">
+								Subject: {classroom.subject}
 							</p>
 						</div>
 					))}
