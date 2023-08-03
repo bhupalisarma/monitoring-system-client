@@ -8,18 +8,26 @@ import axios from "axios";
 const Admin = () => {
 	const [mentors, setMentors] = useState([]);
 	const [classrooms, setClassrooms] = useState([]);
+	const [inviteLink, setInviteLink] = useState('');
+	const [showCopyButton, setShowCopyButton] = useState(true);
 
-	const removeMentor = (index) => {
-		const updatedMentors = [...mentors];
-		updatedMentors.splice(index, 1);
-		setMentors(updatedMentors);
+
+	const generateInviteLink = () => {
+		// TODO: Implement the logic to generate the invite link
+		const roleParam = "role=mentor";
+		const fullLink = `${window.location.origin}/signup?${roleParam}`;
+		setInviteLink(fullLink); // Store the link in the component state	
 	};
 
-	const addMentor = () => {
-		const mentorName = prompt("Enter the name of the mentor");
-		if (mentorName) {
-			setMentors([...mentors, { name: mentorName, classroom: "" }]);
-		}
+	const copyToClipboard = () => {
+		navigator.clipboard.writeText(inviteLink)
+			.then(() => {
+				alert('Link copied to clipboard!');
+				setShowCopyButton(false); // Hide the button after copying the link
+			})
+			.catch((error) => {
+				console.error('Error copying link to clipboard:', error);
+			});
 	};
 
 	// Profile section
@@ -84,15 +92,6 @@ const Admin = () => {
 		fetchClassrooms();
 	}, []);
 
-	const visitClassroom = (index) => {
-		const updatedMentors = [...mentors];
-		const classroomName = prompt("Enter the name of the classroom");
-		if (classroomName) {
-			updatedMentors[index].classroom = classroomName;
-			setMentors(updatedMentors);
-		}
-	};
-
 	return (
 		<div className="min-h-screen bg-gray-100">
 			{/* Navbar */}
@@ -118,6 +117,30 @@ const Admin = () => {
 						<li className="text-blue-500 hover:text-blue-600 cursor-pointer">
 							Notifications
 						</li>
+						<li className="text-blue-500 hover:text-blue-600 cursor-pointer">
+							<button onClick={() => {
+								generateInviteLink();
+							}}>
+								Add Mentor
+							</button>
+							<br></br>
+							{/* Copy Button */}
+							{showCopyButton && inviteLink && (
+								<button
+									onClick={copyToClipboard}
+									className="text-warning transition duration-150 ease-in-out hover:text-warning-600 focus:text-warning-600 active:text-warning-700"
+								>
+									Copy Invite Link
+								</button>
+							)}
+
+							{/* Display the invite link */}
+							{/* {inviteLink && (
+								<p>
+									Share this link: <a href={inviteLink} target="_blank" rel="noopener noreferrer">{inviteLink}</a>
+								</p>
+							)} */}
+						</li>
 						<li
 							className="text-red-500 hover:text-red-600 cursor-pointer"
 							onClick={handleLogout}>
@@ -130,11 +153,20 @@ const Admin = () => {
 			{/* Main content */}
 			<div className="container mx-auto py-8">
 				<div className="max-w-3xl mx-auto px-4">
-					<button
+					{/* <button
 						className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mt-4 w-full"
 						onClick={addMentor}>
 						Add Mentor
-					</button>
+					</button> */}
+						{/* <button onClick={generateInviteLink} className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">
+							Add Mentor
+						</button> */}
+						{/* Display the invite link */}
+						{/* {inviteLink && (
+							<p>
+								Share this link: <a href={inviteLink} target="_blank" rel="noopener noreferrer">{inviteLink}</a>
+							</p>
+						)} */}
 
 					{/* Display all classrooms */}
 					<h2 className="text-2xl font-bold mt-8 mb-4">
