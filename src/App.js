@@ -20,6 +20,7 @@ const App = () => {
           <Route exact path='/mentee' element={< Mentee />}></Route>
           <Route path="/mentor/classroom/:classroomId" element={<Classroom />} />
           <Route path="/mentee/classroom/:classroomId" element={<Classroom />} />
+          <Route path="/admin/classroom/:classroomId" element={<Classroom />} />
       </Routes>
     </Router>
   );

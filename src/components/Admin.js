@@ -141,19 +141,13 @@ const Admin = () => {
 						All Classrooms:
 					</h2>
 					{classrooms.map((classroom, index) => (
-						<div
-							key={index}
-							className="bg-gray-200 p-4 rounded mb-4 border border-green-500">
-							{/* <p className="font-semibold">
-								Mentor: {classroom.mentor.name}
-							</p> */}
-							<p className="font-semibold">
-								Standard: {classroom.standard}
-							</p>
-							<p className="font-semibold">
-								Subject: {classroom.subject}
-							</p>
-						</div>
+						<Link to={`/admin/classroom/${classroom._id}`} key={index}>
+							<div className="bg-gray-200 p-4 rounded mb-4 border border-green-500">
+								{/* <p className="font-semibold">Mentor: {classroom.mentor.name}</p> */}
+								<p className="font-semibold">Standard: {classroom.standard}</p>
+								<p className="font-semibold">Subject: {classroom.subject}</p>
+							</div>
+						</Link>
 					))}
 				</div>
 			</div>
