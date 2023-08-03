@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faHouse } from "@fortawesome/free-solid-svg-icons";
 
@@ -20,6 +21,13 @@ const Mentee = () => {
 			...prevProfile,
 			isProfileOpen: true,
 		}));
+	};
+
+	const navigate = useNavigate();
+	const handleLogout = () => {
+		// Implement your logout logic here, e.g., remove the token from localStorage
+		localStorage.removeItem("accessToken");
+		navigate("/login");
 	};
 
 	const handleCloseProfile = () => {
@@ -67,8 +75,10 @@ const Mentee = () => {
 								<li className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
 									Notifications
 								</li>
-								<li className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-									<Link to="/login">Logout</Link>
+								<li
+									className="text-red-500 hover:text-red-600 cursor-pointer"
+									onClick={handleLogout}>
+									Logout
 								</li>
 							</ul>
 						</div>

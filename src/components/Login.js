@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Button, Spinner } from 'flowbite-react';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -93,11 +96,25 @@ const Login = () => {
                             onChange={handlePasswordChange}
                         />
                     </div>
-                    <button
+                    {/* <button
                         type="submit"
                         className="bg-indigo-500 text-white py-2 px-4 rounded w-full hover:bg-indigo-600 transition-colors duration-300"
                     >
                         Login
+                    </button> */}
+                    <button
+                        type="submit"
+                        className="bg-indigo-500 text-white py-2 px-4 rounded w-full hover:bg-indigo-600 transition-colors duration-300"
+                        disabled={isLoading} // Disable the button when loading
+                    >
+                        {isLoading ? (
+                            <>
+                                <Spinner aria-label="Loading" />
+                                <span className="pl-3">Loading...</span>
+                            </>
+                        ) : (
+                            'Log In'
+                        )}
                     </button>
                     <div className="text-center">
                         <p className="text-gray-500">Don't have an account?</p>

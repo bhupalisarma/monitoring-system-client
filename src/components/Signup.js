@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import { Button, Spinner } from 'flowbite-react';
+
 
 const Signup = () => {
     const [email, setEmail] = useState('');
@@ -9,6 +11,8 @@ const Signup = () => {
     const [role, setRole] = useState('');
     const [error, setError] = useState('');
     const [registrationSuccess, setRegistrationSuccess] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const navigate = useNavigate();
 
@@ -132,14 +136,29 @@ const Signup = () => {
                             </div>
                         </div>
 
-                        <div>
-                            <button
+                        
+                            {/* <button
                                 type="submit"
                                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Sign up
-                            </button>
-                        </div>
+                            </button> */}
+                                <Button
+                                    type="submit"
+                                className="group relative w-full flex justify-center py-2 px-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    disabled={isLoading} // Disable the button when loading
+                                >
+                                    {isLoading ? (
+                                        <>
+                                            <Spinner aria-label="Loading" />
+                                            <span className="pl-3">Loading...</span>
+                                        </>
+                                    ) : (
+                                        'Sign up'
+                                    )}
+                                </Button>
+
+ 
                         <div className="text-gray-600 text-center">
                             Already have an account?{' '}
                             <Link

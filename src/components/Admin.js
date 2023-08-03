@@ -143,7 +143,7 @@ const Admin = () => {
 					{classrooms.map((classroom, index) => (
 						<div
 							key={index}
-							className="bg-gray-200 p-4 rounded mb-4">
+							className="bg-gray-200 p-4 rounded mb-4 border border-green-500">
 							{/* <p className="font-semibold">
 								Mentor: {classroom.mentor.name}
 							</p> */}
