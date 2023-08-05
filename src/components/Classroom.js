@@ -1,51 +1,102 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from "axios";
+
 
 const Classroom = () => {
     const { classroomId } = useParams();
     const [posts, setPosts] = useState([]);
     const [students, setStudents] = useState([]);
+    const [classrooms, setClassrooms] = useState([]);
+   
 
-    // const handleCreatePost = (e) => {
-    //     e.preventDefault();
-    //     const newPost = {
-    //         id: posts.length + 1,
-    //         heading: e.target.elements.postHeading.value,
-    //         content: e.target.elements.postContent.value,
-    //         files: Array.from(e.target.elements.postFiles.files),
-    //         createdAt: new Date(),
-    //         comments: [],
+    const handleCreatePost = (e) => {
+        e.preventDefault();
+        const newPost = {
+            id: posts.length + 1,
+            heading: e.target.elements.postHeading.value,
+            content: e.target.elements.postContent.value,
+            files: Array.from(e.target.elements.postFiles.files),
+            createdAt: new Date(),
+            comments: [],
+        };
+        setPosts([...posts, newPost]);
+        e.target.reset();
+    };
+
+    // Fetch classroom data from the backend (assuming your API endpoint is /api/classrooms/:classroomId)
+    // useEffect(() => {
+    //     const fetchClassrooms = async () => {
+    //         const accessToken = localStorage.getItem("accessToken");
+    //         try {
+    //             const response = await axios.get(
+    //                 "http://localhost:5000/api/auth/classrooms/:classroomId",
+    //                 {
+    //                     headers: {
+    //                         "auth-token": accessToken
+    //                     }
+    //                 }
+    //             );
+    //             setClassrooms(response.data); // Set the classrooms state
+    //         } catch (error) {
+    //             console.error("Error fetching classrooms:", error);
+    //             // Handle error case here
+    //         }
     //     };
-    //     setPosts([...posts, newPost]);
-    //     e.target.reset();
+    //     fetchClassrooms();
+    // }, []);
+
+    // const fetchClassrooms = async (classroomId) => {
+    //     try {
+    //         const response = await axios.get(`http://localhost:5000/api/auth/classrooms/${classroomId}`);
+    //         const classroomData = response.data;
+    //         // Use the classroomData to display the subject name and standard
+    //         console.log(classroomData);
+    //     } catch (error) {
+    //         console.error('Error fetching classroom data:', error);
+    //     }
     // };
 
-
-    const handleCreatePost = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const postData = {
-            heading: formData.get('postHeading'),
-            content: formData.get('postContent'),
-            files: formData.getAll('postFiles'),
+    useEffect(() => {
+        console.log('classroomId:', classroomId); // Check the classroom ID in the console
+        const fetchClassroomData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/api/auth/classroom/${classroomId}`);
+                const classroomData = response.data;
+                console.log(classroomData);
+            // Use the classroomData to display the subject name and standard
+            } catch (error) {
+                console.error('Error fetching classroom data:', error);
+            }
         };
+
+        fetchClassroomData();
+    }, [classroomId]);
+
+    // const handleCreatePost = async (e) => {
+    //     e.preventDefault();
+    //     const formData = new FormData(e.target);
+    //     const postData = {
+    //         heading: formData.get('postHeading'),
+    //         content: formData.get('postContent'),
+    //         files: formData.getAll('postFiles'),
+    //     };
         
-        try {           
-            const response = await axios.post(`http://localhost:5000/api/classrooms/${classroomId}/posts`, postData, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            const newPost = response.data;
-            setPosts([...posts, newPost]);
-            e.target.reset();
-        } 
-        catch (error) {
-            console.error('Error creating post:', error);
-        }
-    };
+    //     try {           
+    //         const response = await axios.post(`http://localhost:5000/api/classrooms/${classroomId}/posts`, postData, {
+    //             headers: {
+    //                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+    //                 'Content-Type': 'multipart/form-data',
+    //             },
+    //         });
+    //         const newPost = response.data;
+    //         setPosts([...posts, newPost]);
+    //         e.target.reset();
+    //     } 
+    //     catch (error) {
+    //         console.error('Error creating post:', error);
+    //     }
+    // };
 
     const handleCreateComment = (postId, e) => {
         e.preventDefault();
@@ -87,6 +138,8 @@ const Classroom = () => {
     return (
         <div className="container mx-auto py-8">
             <h2 className="text-2xl font-bold mb-4">Classroom {classroomId}</h2>
+            <h2>{classrooms.subject} - {classrooms.standard}</h2>
+
 
             <div className="flex justify-between mb-4">
                 <h3 className="text-xl font-semibold">Create New Post</h3>

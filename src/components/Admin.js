@@ -113,7 +113,7 @@ const Admin = () => {
 			{isProfileOpen && (
 				<div className="bg-white rounded shadow p-4 absolute top-12 right-4 z-10 profile-section">
 					<ul className="list-none">
-						<li className="text-gray-800">Email: {userEmail}</li>
+						<li className="text-gray-800">{userEmail}</li>
 						<li className="text-blue-500 hover:text-blue-600 cursor-pointer">
 							Notifications
 						</li>
@@ -133,13 +133,6 @@ const Admin = () => {
 									Copy Invite Link
 								</button>
 							)}
-
-							{/* Display the invite link */}
-							{/* {inviteLink && (
-								<p>
-									Share this link: <a href={inviteLink} target="_blank" rel="noopener noreferrer">{inviteLink}</a>
-								</p>
-							)} */}
 						</li>
 						<li
 							className="text-red-500 hover:text-red-600 cursor-pointer"
@@ -153,25 +146,6 @@ const Admin = () => {
 			{/* Main content */}
 			<div className="container mx-auto py-8">
 				<div className="max-w-3xl mx-auto px-4">
-					{/* <button
-						className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mt-4 w-full"
-						onClick={addMentor}>
-						Add Mentor
-					</button> */}
-						{/* <button onClick={generateInviteLink} className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">
-							Add Mentor
-						</button> */}
-						{/* Display the invite link */}
-						{/* {inviteLink && (
-							<p>
-								Share this link: <a href={inviteLink} target="_blank" rel="noopener noreferrer">{inviteLink}</a>
-							</p>
-						)} */}
-
-					{/* Display all classrooms */}
-					<h2 className="text-2xl font-bold mt-8 mb-4">
-						All Classrooms:
-					</h2>
 					{classrooms.map((classroom, index) => (
 						<Link to={`/admin/classroom/${classroom._id}`} key={index}>
 							<div className="bg-gray-200 p-4 rounded mb-4 border border-green-500">
