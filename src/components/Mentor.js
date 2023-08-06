@@ -21,7 +21,7 @@ const Mentor = () => {
 			const accessToken = localStorage.getItem("accessToken");
 			if (accessToken) {
 				const response = await axios.get(
-					"http://localhost:5000/api/auth/classrooms",
+					"http://localhost:5000/api/classrooms",
 					{
 						headers: {
 							"auth-token": accessToken,
@@ -136,7 +136,7 @@ const Mentor = () => {
 			try {
 				const accessToken = localStorage.getItem("accessToken");
 				const response = await axios.post(
-					"http://localhost:5000/api/auth/classrooms",
+					"http://localhost:5000/api/classrooms",
 					newClassroom,
 					{
 						headers: {
