@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faUserCircle, faBars, faBell, faSignOutAlt, faCalendar } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse, faUserCircle, faBars, faBell, faSignOutAlt, faCalendar } from '@fortawesome/free-solid-svg-icons';
 import Modal from "react-modal";
 import axios from "axios";
 
-const Mentor = () => {
+const Random = () => {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [profile, setProfile] = useState({
@@ -211,7 +211,7 @@ const Mentor = () => {
 						<Link to="/meetings" className="block py-2 px-4 text-white">
 							<FontAwesomeIcon icon={faCalendar} /> Meetings
 						</Link>
-						<Link to="/login" onClick={handleLogout}  className="block py-2 px-4 text-white">
+						<Link to="/logout" className="block py-2 px-4 text-white">
 							<FontAwesomeIcon icon={faSignOutAlt} /> Logout
 						</Link>
 					</div>
@@ -227,23 +227,19 @@ const Mentor = () => {
 						<Link to="/meetings" className="block py-2 px-4 text-white">
 							<FontAwesomeIcon icon={faCalendar} />
 						</Link>
-						<Link to="/login" className="block py-2 px-4 text-white" onClick={handleLogout}>
+						<Link to="/logout" className="block py-2 px-4 text-white">
 							<FontAwesomeIcon icon={faSignOutAlt} />
 						</Link>
 					</div>
 				)}
 			</aside>
+
+			{/* Horizontal Navbar */}
 			<div className="flex-1 flex flex-col">
-				{/* Navbar */}
-				<nav className="bg-blue-500 text-white py-4 px-8 flex justify-between">
-					<h1 className="text-2xl font-bold">Mentor Page</h1>
-					<div className="relative inline-block profile-icon">
-						<Link to="/" className="mr-4">
-							<FontAwesomeIcon icon={faBell} size="lg" />
-						</Link>
-						<button
-							className="text-white"
-							onClick={handleOpenProfile}>
+				<nav className="bg-blue-500 text-white py-4 px-8">
+					<div className="flex items-center justify-between">
+						<h1 className="text-2xl font-bold">Mentor Page</h1>
+						<button className="text-white" onClick={handleOpenProfile}>
 							<FontAwesomeIcon icon={faUserCircle} size="lg" />
 						</button>
 						{profile.isProfileOpen && (
@@ -252,7 +248,10 @@ const Mentor = () => {
 								onClick={(e) => e.stopPropagation()}>
 								<ul className="list-none">
 									<li className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										{profile.email}
+										Email: {profile.email}
+									</li>
+									<li className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+										Notifications
 									</li>
 									{isLoggedIn ? (
 										<>
@@ -261,12 +260,17 @@ const Mentor = () => {
 												onClick={handleAddClassroom}>
 												Add Classroom
 											</button>
+											<li className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+												<Link
+													to="/login"
+													onClick={handleLogout}>
+													Logout
+												</Link>
+											</li>
 										</>
 									) : (
 										<li className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-											<Link
-												to="/login"
-												onClick={handleLogin}>
+											<Link to="/login" onClick={handleLogin}>
 												Login
 											</Link>
 										</li>
@@ -357,10 +361,7 @@ const Mentor = () => {
 									setProfile((prevProfile) => ({
 										...prevProfile,
 										isAddingClassroom: false,
-										newClassroom: {
-											subject: "",
-											standard: "",
-										},
+										newClassroom: { subject: "", standard: "" },
 									}))
 								}>
 								Cancel
@@ -373,4 +374,4 @@ const Mentor = () => {
 	);
 };
 
-export default Mentor;
+export default Random;

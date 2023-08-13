@@ -7,6 +7,7 @@ import Admin from './components/Admin';
 import Mentor from './components/Mentor';
 import Classroom from './components/Classroom';
 import Mentee from './components/Mentee';
+import Random from './random';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route exact path='/admin' element={< Admin />}></Route>
           <Route exact path='/mentor' element={< Mentor />}></Route>
           <Route exact path='/mentee' element={< Mentee />}></Route>
+          <Route exact path='/random' element={< Random />}></Route>
           <Route path="/mentor/classroom/:classroomId" element={<Classroom />} />
           <Route path="/mentee/classroom/:classroomId" element={<Classroom />} />
           <Route path="/admin/classroom/:classroomId" element={<Classroom />} />

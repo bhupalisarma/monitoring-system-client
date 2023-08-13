@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle, faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faUserCircle, faBars, faBell, faSignOutAlt, faCalendar } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 const Admin = () => {
+	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [mentors, setMentors] = useState([]);
 	const [classrooms, setClassrooms] = useState([]);
 	const [inviteLink, setInviteLink] = useState('');
