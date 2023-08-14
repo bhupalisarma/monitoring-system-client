@@ -5,32 +5,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faUserCircle, faBars, faBell, faSignOutAlt, faCalendar } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
-const Admin = () => {
+const Random = () => {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
+	const [profile, setProfile] = useState({
+		name: "Mentee Name",
+		email: sessionStorage.getItem("userEmail") || "mentee@example.com",
+		classrooms: [
+			{ id: 1, subject: "Math", standard: "9th" },
+			{ id: 2, subject: "Science", standard: "10th" },
+			{ id: 3, subject: "English", standard: "8th" },
+		],
+		isProfileOpen: false,
+	});
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [mentors, setMentors] = useState([]);
 	const [classrooms, setClassrooms] = useState([]);
 	const [inviteLink, setInviteLink] = useState('');
 	const [showCopyButton, setShowCopyButton] = useState(true);
 
-
-	const generateInviteLink = () => {
-		// TODO: Implement the logic to generate the invite link
-		const roleParam = "role=mentor";
-		const fullLink = `${window.location.origin}/signup?${roleParam}`;
-		setInviteLink(fullLink); // Store the link in the component state	
-	};
-
-	const copyToClipboard = () => {
-		navigator.clipboard.writeText(inviteLink)
-			.then(() => {
-				alert('Link copied to clipboard!');
-				setShowCopyButton(false); // Hide the button after copying the link
-			})
-			.catch((error) => {
-				console.error('Error copying link to clipboard:', error);
-			});
-	};
 
 	// Profile section
 	const [userEmail, setUserEmail] = useState("");
@@ -165,52 +157,41 @@ const Admin = () => {
 					<div className="bg-white rounded shadow p-4 absolute top-12 right-4 z-10 profile-section">
 						<ul className="list-none">
 							<li className="text-gray-800">{userEmail}</li>
-							<li className="text-blue-500 hover:text-blue-600 cursor-pointer">
+							{/* <li className="text-blue-500 hover:text-blue-600 cursor-pointer">
 								Notifications
-							</li>
-							<li className="text-blue-500 hover:text-blue-600 cursor-pointer">
-								<button onClick={() => {
-									generateInviteLink();
-								}}>
-									Add Mentor
-								</button>
-								<br></br>
-								{/* Copy Button */}
-								{showCopyButton && inviteLink && (
-									<button
-										onClick={copyToClipboard}
-										className="text-warning transition duration-150 ease-in-out hover:text-warning-600 focus:text-warning-600 active:text-warning-700"
-									>
-										Copy Invite Link
-									</button>
-								)}
-							</li>
-							<li
-								className="text-red-500 hover:text-red-600 cursor-pointer"
-								onClick={handleLogout}>
-								Logout
-							</li>
+							</li>							 */}
 						</ul>
 					</div>
 				)}
 
 				{/* Main content */}
-				<div className="container mx-auto py-8">
+				<main className="container mx-auto flex-grow py-8">
 					<div className="max-w-3xl mx-auto px-4">
-						{classrooms.map((classroom, index) => (
-							<Link to={`/admin/classroom/${classroom._id}`} key={index}>
-								<div className="bg-gray-200 p-4 rounded mb-4 border border-green-500">
-									{/* <p className="font-semibold">Mentor: {classroom.mentor.name}</p> */}
-									<p className="font-semibold">Standard: {classroom.standard}</p>
-									<p className="font-semibold">Subject: {classroom.subject}</p>
+						<div className="bg-white rounded shadow p-4">
+							<h3 className="text-xl font-semibold mb-2">
+								Classrooms
+							</h3>
+							{profile.classrooms.map((classroom) => (
+								<div
+									key={classroom.id}
+									className="mb-4 p-4 border border-gray-300 rounded">
+									<h4 className="text-lg font-semibold">
+										{classroom.subject} - {classroom.standard}
+									</h4>
+									<Link
+										to={`/mentee/classroom/${classroom.id}`}
+										className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mt-2 inline-block"
+										style={{ marginLeft: "auto" }}>
+										View Classroom
+									</Link>
 								</div>
-							</Link>
-						))}
+							))}
+						</div>
 					</div>
-				</div>
+				</main>
 			</div>
 		</div>
 	);
 };
 
-export default Admin;
+export default Random;
