@@ -87,11 +87,11 @@ const Random = () => {
 	}, []);
 
 	return (
-		<div className="flex min-h-screen bg-gray-100">
+		<div className="flex min-h-screen bg-stone-200">
 			{/* Sidebar */}
 			<aside
 				className={`${sidebarOpen ? 'w-38' : 'w-16'
-					} bg-blue-500 text-white transition-all duration-300 ease-in-out overflow-hidden`}
+					} bg-[#131313] text-white transition-all duration-300 ease-in-out overflow-hidden`}
 			>
 				<div className="py-4 px-4">
 					<button
@@ -138,8 +138,8 @@ const Random = () => {
 			</aside>
 			<div className="flex-1 flex flex-col">
 				{/* Navbar */}
-				<nav className="bg-blue-500 text-white py-4 px-8 flex justify-between">
-					<h1 className="text-2xl font-bold">Mentor Page</h1>
+				<nav className="bg-[#131313] text-white py-4 px-8 flex justify-between">
+					<h1 className="text-2xl font-bold">Mentee Page</h1>
 					<div className="relative inline-block profile-icon">
 						<Link to="/" className="mr-4">
 							<FontAwesomeIcon icon={faBell} size="lg" />

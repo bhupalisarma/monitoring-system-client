@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faUserCircle, faBars, faBell, faSignOutAlt, faCalendar } from "@fortawesome/free-solid-svg-icons";
+import {
+	faHouse,
+	faUserCircle,
+	faBars,
+	faBell,
+	faSignOutAlt,
+	faCalendar,
+	faUserPlus,
+	faUser,
+	faUsersViewfinder,
+} from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import axios from "axios";
 
@@ -184,17 +194,16 @@ const Mentor = () => {
 	}, []);
 
 	return (
-		<div className="flex min-h-screen bg-gray-100">
+		<div className="flex min-h-screen bg-stone-200">
 			{/* Sidebar */}
 			<aside
-				className={`${sidebarOpen ? 'w-38' : 'w-16'
-					} bg-blue-500 text-white transition-all duration-300 ease-in-out overflow-hidden`}
-			>
+				className={`${
+					sidebarOpen ? "w-38" : "w-16"
+				} bg-[#131313] text-white transition-all duration-300 ease-in-out overflow-hidden`}>
 				<div className="py-4 px-4">
 					<button
 						className="text-white"
-						onClick={() => setSidebarOpen(!sidebarOpen)}
-					>
+						onClick={() => setSidebarOpen(!sidebarOpen)}>
 						<FontAwesomeIcon icon={faBars} />
 					</button>
 				</div>
@@ -208,10 +217,15 @@ const Mentor = () => {
 						<Link to="/" className="block py-2 px-4 text-white">
 							<FontAwesomeIcon icon={faBell} /> Notifications
 						</Link>
-						<Link to="/meetings" className="block py-2 px-4 text-white">
+						<Link
+							to="/meetings"
+							className="block py-2 px-4 text-white">
 							<FontAwesomeIcon icon={faCalendar} /> Meetings
 						</Link>
-						<Link to="/login" onClick={handleLogout}  className="block py-2 px-4 text-white">
+						<Link
+							to="/login"
+							onClick={handleLogout}
+							className="block py-2 px-4 text-white">
 							<FontAwesomeIcon icon={faSignOutAlt} /> Logout
 						</Link>
 					</div>
@@ -224,10 +238,15 @@ const Mentor = () => {
 						<Link to="/" className="block py-2 px-4 text-white">
 							<FontAwesomeIcon icon={faBell} />
 						</Link>
-						<Link to="/meetings" className="block py-2 px-4 text-white">
+						<Link
+							to="/meetings"
+							className="block py-2 px-4 text-white">
 							<FontAwesomeIcon icon={faCalendar} />
 						</Link>
-						<Link to="/login" className="block py-2 px-4 text-white" onClick={handleLogout}>
+						<Link
+							to="/login"
+							className="block py-2 px-4 text-white"
+							onClick={handleLogout}>
 							<FontAwesomeIcon icon={faSignOutAlt} />
 						</Link>
 					</div>
@@ -235,7 +254,7 @@ const Mentor = () => {
 			</aside>
 			<div className="flex-1 flex flex-col">
 				{/* Navbar */}
-				<nav className="bg-blue-500 text-white py-4 px-8 flex justify-between">
+				<nav className="bg-[#131313] text-white py-4 px-8 flex justify-between">
 					<h1 className="text-2xl font-bold">Mentor Page</h1>
 					<div className="relative inline-block profile-icon">
 						<Link to="/" className="mr-4">
@@ -252,6 +271,10 @@ const Mentor = () => {
 								onClick={(e) => e.stopPropagation()}>
 								<ul className="list-none">
 									<li className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+										<FontAwesomeIcon
+											icon={faUser}
+											className="text-gray-500"
+										/>{" "}
 										{profile.email}
 									</li>
 									{isLoggedIn ? (
@@ -259,6 +282,10 @@ const Mentor = () => {
 											<button
 												className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
 												onClick={handleAddClassroom}>
+												<FontAwesomeIcon
+													icon={faUserPlus}
+													className="text-gray-500"
+												/>{" "}
 												Add Classroom
 											</button>
 										</>
@@ -281,24 +308,51 @@ const Mentor = () => {
 				<main className="container mx-auto flex-grow py-8">
 					<div className="max-w-3xl mx-auto px-4">
 						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-							{profile.classrooms.map((classroom) => (
-								<div
-									key={classroom._id}
-									className="bg-white rounded shadow-md p-4 flex flex-col justify-between transition duration-300 ease-in-out transform hover:scale-105">
-									<div>
-										<h4 className="text-lg font-semibold mb-2">
-											{classroom.subject}
-										</h4>
-										<p className="text-gray-600">
-											Standard: {classroom.standard}
+							{profile.classrooms.map((classroom, index) => (
+								<Link to={`/mentor/classroom/${classroom._id}`}>
+									<div
+										key={classroom._id}
+										className="border border-gray-500 border-1 rounded shadow-md flex flex-col justify-between transition duration-300 ease-in-out transform hover:scale-105">
+										{/* Classroom Header */}
+										<p className="bg-black text-white text-lg mb-1 w-full py-2 px-4 flex justify-between items-center">
+											Classroom {index + 1} - {classroom.subject}
+
+											{/* <FontAwesomeIcon
+											icon={faUsersViewfinder}
+										/>										 */}
 										</p>
+
+										<div>
+											<p className="text-base font-semibold justify-between px-4">
+												Subject : {classroom.subject}
+											</p>
+											<p className="text-base font-semibold px-4">
+												Standard : {classroom.standard}
+											</p>
+											{/* <p className="text-gray-600">
+											Standard: {classroom.mentor.email}
+										</p> */}
+										</div>
+										{/* <div className="flex space-x-2 mt-2 justify-center px-4">
+											<button class="bg-transparent hover:bg-blue-500 text-orange-600  hover:text-white py-1 px-2 border border-orange-300 hover:border-transparent rounded text-sm">
+												Update
+											</button>
+											<button class="bg-transparent hover:bg-blue-500 text-red-600 hover:text-white py-1 px-2 border border-red-600 hover:border-transparent rounded text-sm">
+												Delete
+											</button>
+										</div> */}
+										
+
+										<div className="px-4 py-3">
+											{/* <Link
+											to={`/mentor/classroom/${classroom._id}`}
+											className="border border-slate-900 border-2 bg-transparent text-black hover:bg-black hover:text-white hover:border-slate-900 py-1  flex text-base items-center rounded justify-center">
+											Enter Classroom
+										</Link> */}
+										</div>
+
 									</div>
-									<Link
-										to={`/mentor/classroom/${classroom._id}`}
-										className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-										View Classroom
-									</Link>
-								</div>
+								</Link>
 							))}
 						</div>
 					</div>

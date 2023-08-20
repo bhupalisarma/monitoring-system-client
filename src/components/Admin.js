@@ -46,7 +46,7 @@ const Admin = () => {
 		localStorage.removeItem("accessToken");
 		// Perform logout action, such as making a request to your backend API or clearing session/cookie
 		navigate("/login");
-	};
+	}
 
 	useEffect(() => {
 		// Retrieve the user's email from session storage
@@ -83,10 +83,27 @@ const Admin = () => {
 						}
 					}
 				);
-				console.log(response.data.classrooms)
-				setClassrooms(response.data); // Add this line to set the classrooms state
+				setClassrooms(response.data); 
 			} catch (error) {
 				console.error("Error fetching classrooms:", error);
+				// Handle error case here
+			}
+		};
+		fetchClassrooms();
+	}, []);
+
+	useEffect(() => {
+		const fetchClassrooms = async () => {
+			const accessToken = localStorage.getItem('accessToken');
+			try {
+				const response = await axios.get('http://localhost:5000/api/classrooms', {
+					headers: {
+						'auth-token': accessToken,
+					},
+				});
+				setClassrooms(response.data);
+			} catch (error) {
+				console.error('Error fetching classrooms:', error);
 				// Handle error case here
 			}
 		};
@@ -94,12 +111,13 @@ const Admin = () => {
 		fetchClassrooms();
 	}, []);
 
+
 	return (
-		<div className="flex min-h-screen bg-gray-100">
+		<div className="flex min-h-screen bg-stone-200">
 			{/* Sidebar */}
 			<aside
 				className={`${sidebarOpen ? 'w-38' : 'w-16'
-					} bg-blue-500 text-white transition-all duration-300 ease-in-out overflow-hidden`}
+					} bg-[#131313] text-white transition-all duration-300 ease-in-out overflow-hidden`}
 			>
 				<div className="py-4 px-4">
 					<button
@@ -146,8 +164,8 @@ const Admin = () => {
 			</aside>
 			<div className="flex-1 flex flex-col">
 				{/* Navbar */}
-				<nav className="bg-blue-500 text-white py-4 px-8 flex justify-between">
-					<h1 className="text-2xl font-bold">Mentor Page</h1>
+				<nav className="bg-[#131313] text-white py-4 px-8 flex justify-between">
+					<h1 className="text-2xl font-bold">Admin Page</h1>
 					<div className="relative inline-block profile-icon">
 						<Link to="/" className="mr-4">
 							<FontAwesomeIcon icon={faBell} size="lg" />
@@ -199,10 +217,14 @@ const Admin = () => {
 					<div className="max-w-3xl mx-auto px-4">
 						{classrooms.map((classroom, index) => (
 							<Link to={`/admin/classroom/${classroom._id}`} key={index}>
-								<div className="bg-gray-200 p-4 rounded mb-4 border border-green-500">
+								<div className="shadow-md bg-transparent font-semibold p-4 rounded mb-4 border border-gray-500 border-1 ease-in-out transform hover:scale-105">
 									{/* <p className="font-semibold">Mentor: {classroom.mentor.name}</p> */}
 									<p className="font-semibold">Standard: {classroom.standard}</p>
 									<p className="font-semibold">Subject: {classroom.subject}</p>
+									<p className="font-semibold">
+										Mentor: {classroom.mentor}
+									</p>
+									{/* <p className="font-semibold">Mentor: {classroom.mentor}</p> */}
 								</div>
 							</Link>
 						))}

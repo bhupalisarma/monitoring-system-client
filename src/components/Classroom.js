@@ -62,31 +62,6 @@ const Classroom = () => {
         fetchClassroomData();
     }, [classroomId]);
 
-    // const handleCreatePost = async (e) => {
-    //     e.preventDefault();
-    //     const formData = new FormData(e.target);
-    //     const postData = {
-    //         heading: formData.get('postHeading'),
-    //         content: formData.get('postContent'),
-    //         files: formData.getAll('postFiles'),
-    //     };
-        
-    //     try {           
-    //         const response = await axios.post(`http://localhost:5000/api/classrooms/${classroomId}/posts`, postData, {
-    //             headers: {
-    //                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-    //                 'Content-Type': 'multipart/form-data',
-    //             },
-    //         });
-    //         const newPost = response.data;
-    //         setPosts([...posts, newPost]);
-    //         e.target.reset();
-    //     } 
-    //     catch (error) {
-    //         console.error('Error creating post:', error);
-    //     }
-    // };
-
     const handleCreateComment = (postId, e) => {
         e.preventDefault();
         const comment = {
@@ -126,10 +101,8 @@ const Classroom = () => {
 
     return (
         <div className="container mx-auto py-8">
-            <h2 className="text-2xl font-bold mb-4">Classroom {classroomId}</h2>
-            <h2>{classrooms.subject}</h2>
-            <h2> {classrooms.standard}</h2>
-
+            {/* <h2 className="text-2xl font-bold mb-4">Classroom {classroomId}</h2> */}
+            <h2 className="text-2xl font-bold mb-4">{classrooms.subject} - {classrooms.standard}</h2>
 
             <div className="flex justify-between mb-4">
                 <h3 className="text-xl font-semibold">Create New Post</h3>
